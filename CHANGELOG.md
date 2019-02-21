@@ -1,7 +1,5 @@
-# Change Log
-All notable changes to the "wx-smart-file" extension will be documented in this file.
+## v1.0
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
-
-## [Unreleased]
-- Initial release
+```
+    基本支持了自动生成小程序文件结构以及自定义模板。
+```
