@@ -1,6 +1,6 @@
 {
   "name": "wx-smart-file",
-  "displayName": "vscode 快速生成小程序文件插件",
+  "displayName": "wx-smart-file",
   "description": "vscode 自动生成小程序文件插件",
   "keywords": [
     "vscdoe",
@@ -9,7 +9,7 @@
     "wxml",
     "wxss"
   ],
-  "version": "0.0.1",
+  "version": "1.0.0",
   "publisher": "haodaima",
   "engines": {
     "vscode": "^1.25.0"
@@ -17,6 +17,7 @@
   "categories": [
     "Other"
   ],
+  "icon": "https://lc-vkpyiowl.cn-n1.lcfile.com/d9fd1698c0be350a116f.png",
   "activationEvents": [
     "workspaceContains:**/*"
   ],
