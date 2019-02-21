@@ -9,7 +9,7 @@
     "wxml",
     "wxss"
   ],
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publisher": "haodaima",
   "engines": {
     "vscode": "^1.25.0"
@@ -19,10 +19,15 @@
   ],
   "icon": "logo.png",
   "activationEvents": [
-    "workspaceContains:**/*"
+    "onCommand:wxSmartFile.init"
   ],
   "main": "./src/extension.js",
   "contributes": {
+    "commands": {
+      "command": "wxSmartFile.init",
+      "title": "Go Start",
+      "category": "wxSmartFile"
+    },
     "configuration": {
       "type": "obeject",
       "title": "plugin wx-smart-file config",

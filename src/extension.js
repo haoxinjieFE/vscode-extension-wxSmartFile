@@ -6,7 +6,11 @@ const { MemFS } = require("./fs.js");
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
-  wxSmartFile.init(1);
+  context.subscriptions.push(
+    vscode.commands.registerCommand("wxSmartFile.init", () => {
+      wxSmartFile.init(1);
+    })
+  );
   context.subscriptions.push(wxSmartFile.fileWatch());
   context.subscriptions.push(wxSmartFile.watch());
 }
