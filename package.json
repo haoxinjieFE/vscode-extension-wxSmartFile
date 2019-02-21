@@ -17,7 +17,7 @@
   "categories": [
     "Other"
   ],
-  "icon": "https://lc-vkpyiowl.cn-n1.lcfile.com/d9fd1698c0be350a116f.png",
+  "icon": "logo.png",
   "activationEvents": [
     "workspaceContains:**/*"
   ],
