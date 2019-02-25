@@ -18,3 +18,7 @@
 ## It looks like:
 
 ![](https://lc-vkpyiowl.cn-n1.lcfile.com/db15cc75c05eeb3773b2.gif)
+
+### Tips
+
+    windows compatibility may be problematic, wait patiently
