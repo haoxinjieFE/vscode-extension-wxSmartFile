@@ -4,7 +4,8 @@
 
 ## how to use
 
-    Search through the app store wx-smart-file and install it by app store search
+    - Search through the app store wx-smart-file and install it by app store search
+    - command + shift + p, Start: this extension is work  Stop: this extension stop work;
 
 ## Settings Options
 
