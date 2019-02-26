@@ -39,7 +39,9 @@ class wxSmartFile {
 
             this.fileWatcher = wathDirCreated.onDidCreate(url => {
               try {
-                this.writeWxFile(url.path);
+                if (url.path.indexOf(".") <= -1) {
+                  this.writeWxFile(url.path);
+                }
               } catch (e) {
                 console.log(e);
               }
@@ -269,8 +271,7 @@ class wxSmartFile {
         }
       }
     });
-
-    fs.readFile(appJson, (err, data) => {
+    fs.readFile(appJson, "utf-8", (err, data) => {
       try {
         const jsonConfig = JSON.parse(data);
         const newFileName =
