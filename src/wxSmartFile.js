@@ -30,7 +30,13 @@ class wxSmartFile {
             } else if (type === 0) {
               showInformationMessage("wx-smart-file 已经重新加载");
             }
-            const wathDirCreated = createFileSystemWatcher(`${realPath}/**`);
+            const wathDirCreated = createFileSystemWatcher(
+              `${realPath}/**`,
+              false,
+              true,
+              true
+            );
+
             this.fileWatcher = wathDirCreated.onDidCreate(url => {
               try {
                 this.writeWxFile(url.path);
@@ -76,6 +82,46 @@ class wxSmartFile {
     return workspace.getConfiguration("wxSmartFile");
   }
 
+  findSync(startPath) {
+    let result = [];
+    function finder(path) {
+      let files = fs.readdirSync(path);
+      files.forEach((val, index) => {
+        let fPath = _.join(path, val);
+        let stats = fs.statSync(fPath);
+        if (stats.isDirectory()) finder(fPath);
+        if (stats.isFile()) result.push(fPath);
+      });
+    }
+    finder(startPath);
+    return result;
+  }
+
+  delDir(path) {
+    let files = [];
+    if (fs.existsSync(path)) {
+      files = fs.readdirSync(path);
+      files.forEach((file, index) => {
+        let curPath = path + "/" + file;
+        if (fs.statSync(curPath).isDirectory()) {
+          delDir(curPath); //递归删除文件夹
+        } else {
+          fs.unlinkSync(curPath); //删除文件
+        }
+      });
+    }
+  }
+
+  uniqueArray(arr) {
+    const newArr = [];
+    arr.forEach(item => {
+      if (!newArr.includes(item)) {
+        newArr.push(item);
+      }
+    });
+    return newArr;
+  }
+
   writeWxFile(path) {
     const fileName = this.getConfiguration().fileName || this.getFileName(path);
     const { templateDir } = this.getConfiguration();
@@ -94,84 +140,150 @@ class wxSmartFile {
     const wxTemplate = [".wxss", ".wxml", ".js", ".json"].map(
       name => `${fileName}${name}`
     );
+    const appJson = `${workspace.workspaceFolders[0].uri.path}/app.json`;
 
     wxTemplate.forEach(item => {
       if (this.getFileSuffix(item) === "js") {
         if (templateDir) {
           fs.readFile(TemplatJsPath, function(err, data) {
             if (!err) {
-              fs.writeFile(`${path}/${item}`, data, err => {
-                if (err) throw err;
+              fs.exists(`${path}/${item}`, function(exists) {
+                if (!exists) {
+                  fs.writeFile(`${path}/${item}`, data, err => {
+                    if (err) throw err;
+                  });
+                }
               });
             } else {
-              fs.writeFile(`${path}/${item}`, Buffer.from(""), err => {
-                if (err) throw err;
+              fs.exists(`${path}/${item}`, function(exists) {
+                if (!exists) {
+                  fs.writeFile(`${path}/${item}`, Buffer.from(""), err => {
+                    if (err) throw err;
+                  });
+                }
               });
             }
           });
         } else {
-          fs.writeFile(
-            `${path}/${item}`,
-            Buffer.from("const _ = getApp().globalData._apis;\nPage({});"),
-            err => {
-              if (err) throw err;
+          fs.exists(`${path}/${item}`, function(exists) {
+            if (!exists) {
+              fs.writeFile(
+                `${path}/${item}`,
+                Buffer.from("const _ = getApp().globalData._apis;\nPage({});"),
+                err => {
+                  if (err) throw err;
+                }
+              );
             }
-          );
+          });
         }
       } else if (this.getFileSuffix(item) === "json") {
         if (templateDir) {
-          fs.readFile(TemplatJsonPath, function(err, data) {
+          fs.readFile(TemplatJsonsPath, function(err, data) {
             if (!err) {
-              fs.writeFile(`${path}/${item}`, data, err => {
-                if (err) throw err;
+              fs.exists(`${path}/${item}`, function(exists) {
+                if (!exists) {
+                  fs.writeFile(`${path}/${item}`, data, err => {
+                    if (err) throw err;
+                  });
+                }
               });
             } else {
-              fs.writeFile(`${path}/${item}`, Buffer.from(""), err => {
-                if (err) throw err;
+              fs.exists(`${path}/${item}`, function(exists) {
+                if (!exists) {
+                  fs.writeFile(`${path}/${item}`, Buffer.from(""), err => {
+                    if (err) throw err;
+                  });
+                }
               });
             }
           });
         } else {
-          fs.writeFile(`${path}/${item}`, Buffer.from("{}"), err => {
-            if (err) throw err;
+          fs.exists(`${path}/${item}`, function(exists) {
+            if (!exists) {
+              fs.writeFile(`${path}/${item}`, Buffer.from("{}"), err => {
+                if (err) throw err;
+              });
+            }
           });
         }
       } else if (this.getFileSuffix(item) === "wxml") {
         if (templateDir) {
           fs.readFile(TemplatWxmlPath, function(err, data) {
             if (!err) {
-              fs.writeFile(`${path}/${item}`, data, err => {
-                if (err) throw err;
+              fs.exists(`${path}/${item}`, function(exists) {
+                if (!exists) {
+                  fs.writeFile(`${path}/${item}`, data, err => {
+                    if (err) throw err;
+                  });
+                }
               });
             } else {
-              fs.writeFile(`${path}/${item}`, Buffer.from(""), err => {
-                if (err) throw err;
+              fs.exists(`${path}/${item}`, function(exists) {
+                if (!exists) {
+                  fs.writeFile(`${path}/${item}`, Buffer.from(""), err => {
+                    if (err) throw err;
+                  });
+                }
               });
             }
           });
         } else {
-          fs.writeFile(`${path}/${item}`, Buffer.from(""), err => {
-            if (err) throw err;
+          fs.exists(`${path}/${item}`, function(exists) {
+            if (!exists) {
+              fs.writeFile(`${path}/${item}`, Buffer.from(""), err => {
+                if (err) throw err;
+              });
+            }
           });
         }
       } else if (this.getFileSuffix(item) === "wxss") {
         if (templateDir) {
           fs.readFile(TemplatWxssPath, function(err, data) {
             if (!err) {
-              fs.writeFile(`${path}/${item}`, data, err => {
-                if (err) throw err;
+              fs.exists(`${path}/${item}`, function(exists) {
+                if (!exists) {
+                  fs.writeFile(`${path}/${item}`, data, err => {
+                    if (err) throw err;
+                  });
+                }
               });
             } else {
-              fs.writeFile(`${path}/${item}`, Buffer.from(""), err => {
-                if (err) throw err;
+              fs.exists(`${path}/${item}`, function(exists) {
+                if (!exists) {
+                  fs.writeFile(`${path}/${item}`, Buffer.from(""), err => {
+                    if (err) throw err;
+                  });
+                }
               });
             }
           });
         } else {
-          fs.writeFile(`${path}/${item}`, Buffer.from(""), err => {
-            if (err) throw err;
+          fs.exists(`${path}/${item}`, function(exists) {
+            if (!exists) {
+              fs.writeFile(`${path}/${item}`, Buffer.from("{}"), err => {
+                if (err) throw err;
+              });
+            }
           });
         }
+      }
+    });
+
+    fs.readFile(appJson, (err, data) => {
+      try {
+        const jsonConfig = JSON.parse(data);
+        const newFileName =
+          fileName.indexOf(".") > -1
+            ? fileName.slice(0, fileName.indexOf("."))
+            : fileName;
+        jsonConfig.pages.push(`pages/${newFileName}/${newFileName}`);
+        jsonConfig.pages = this.uniqueArray(jsonConfig.pages);
+        fs.writeFile(appJson, JSON.stringify(jsonConfig, null, 2), err => {
+          if (err) throw err;
+        });
+      } catch (e) {
+        console.log(e);
       }
     });
   }

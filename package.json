@@ -9,7 +9,7 @@
     "wxml",
     "wxss"
   ],
-  "version": "1.0.2",
+  "version": "1.0.3",
   "publisher": "haodaima",
   "engines": {
     "vscode": "^1.25.0"
