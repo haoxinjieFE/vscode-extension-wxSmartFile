@@ -263,7 +263,7 @@ class wxSmartFile {
         } else {
           fs.exists(`${path}/${item}`, function(exists) {
             if (!exists) {
-              fs.writeFile(`${path}/${item}`, Buffer.from("{}"), err => {
+              fs.writeFile(`${path}/${item}`, Buffer.from(""), err => {
                 if (err) throw err;
               });
             }
