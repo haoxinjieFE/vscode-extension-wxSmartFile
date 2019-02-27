@@ -20,7 +20,8 @@
   "icon": "logo.png",
   "activationEvents": [
     "onCommand:wxSmartFile.init",
-    "onCommand:wxSmartFile.stop"
+    "onCommand:wxSmartFile.stop",
+    "onCommand:wxSmartFile.debugPage"
   ],
   "main": "./src/extension.js",
   "contributes": {
@@ -33,6 +34,11 @@
       {
         "command": "wxSmartFile.stop",
         "title": "Stop",
+        "category": "wxSmartFile"
+      },
+      {
+        "command": "wxSmartFile.debugPage",
+        "title": "调试该页面",
         "category": "wxSmartFile"
       }
     ],
@@ -59,6 +65,14 @@
           "description": "自动生成文件的文件名"
         }
       }
+    },
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "wxSmartFile.debugPage",
+          "group": "z_commands"
+        }
+      ]
     }
   },
   "scripts": {

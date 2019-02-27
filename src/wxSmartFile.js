@@ -289,6 +289,31 @@ class wxSmartFile {
     });
   }
 
+  debugPage(path) {
+    if (path.indexOf("/pages/") <= -1) {
+      showInformationMessage("只有 pages 文件夹下的页面可调试, 请检查所选文件");
+    } else {
+      const fileName = this.getFileName(path);
+      const page =
+        fileName.indexOf(".") > -1
+          ? fileName.slice(0, fileName.indexOf("."))
+          : fileName;
+      const appJson = `${workspace.workspaceFolders[0].uri.path}/app.json`;
+      fs.readFile(appJson, "utf-8", (err, data) => {
+        try {
+          const jsonConfig = JSON.parse(data);
+          jsonConfig.pages.unshift(`pages/${page}/${page}`);
+          jsonConfig.pages = this.uniqueArray(jsonConfig.pages);
+          fs.writeFile(appJson, JSON.stringify(jsonConfig, null, 2), err => {
+            if (err) throw err;
+          });
+        } catch (e) {
+          console.log(e);
+        }
+      });
+    }
+  }
+
   fileWatch() {
     return this.fileWatcher;
   }
