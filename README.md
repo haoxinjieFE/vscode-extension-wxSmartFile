@@ -13,7 +13,7 @@
     - `wxSmartFile.enabled`: enable/disable wx-smart-file, default: `false`
     - `wxSmartFile.path`: watching folder, default: `pages`
     - `wxSmartFile.templateDir`: template folder, it's must be in project root folder, default: `static`
-    - `wxSmartFile.filename`: filled template file name, default: current folder name
+    - `wxSmartFile.fileName`: filled template file name, default: current folder name
 
 ## It looks like:
 

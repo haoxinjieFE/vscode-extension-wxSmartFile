@@ -9,3 +9,9 @@
 ```
     mac 增加了右键点击调试该页面自动把当前开发页面放到首位的功能。
 ```
+
+## v1.0.8
+
+```
+    修复了[issue#1](https://github.com/haoxinjieFE/vscode-extension-wxSmartFile/issues/1)。
+```
