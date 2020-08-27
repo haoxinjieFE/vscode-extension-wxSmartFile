@@ -1,7 +1,5 @@
 const {
   workspace,
-  FileSystemProvider,
-  RelativePattern,
   window: { showInformationMessage, showErrorMessage }
 } = require("vscode");
 const vscode = require("vscode");
@@ -106,7 +104,7 @@ class wxSmartFile {
       files.forEach((file, index) => {
         let curPath = path + "/" + file;
         if (fs.statSync(curPath).isDirectory()) {
-          delDir(curPath); //递归删除文件夹
+          this.delDir(curPath); //递归删除文件夹
         } else {
           fs.unlinkSync(curPath); //删除文件
         }
@@ -127,27 +125,27 @@ class wxSmartFile {
   writeWxFile(path) {
     const fileName = this.getConfiguration().fileName || this.getFileName(path);
     const { templateDir } = this.getConfiguration();
-    const TemplatJsPath = `${
+    const TemplateJsPath = `${
       workspace.workspaceFolders[0].uri.path
     }/${templateDir}/template.js`;
-    const TemplatJsonPath = `${
+    const TemplateJsonPath = `${
       workspace.workspaceFolders[0].uri.path
     }/${templateDir}/template.json`;
-    const TemplatWxmlPath = `${
+    const TemplateWxmlPath = `${
       workspace.workspaceFolders[0].uri.path
     }/${templateDir}/template.wxml`;
-    const TemplatWxssPath = `${
+    const TemplateWxssPath = `${
       workspace.workspaceFolders[0].uri.path
     }/${templateDir}/template.wxss`;
-    const wxTemplate = [".wxss", ".wxml", ".js", ".json"].map(
+    const wxTemplatee = [".wxss", ".wxml", ".js", ".json"].map(
       name => `${fileName}${name}`
     );
     const appJson = `${workspace.workspaceFolders[0].uri.path}/app.json`;
 
-    wxTemplate.forEach(item => {
+    wxTemplatee.forEach(item => {
       if (this.getFileSuffix(item) === "js") {
         if (templateDir) {
-          fs.readFile(TemplatJsPath, function(err, data) {
+          fs.readFile(TemplateJsPath, function(err, data) {
             if (!err) {
               fs.exists(`${path}/${item}`, function(exists) {
                 if (!exists) {
@@ -181,7 +179,7 @@ class wxSmartFile {
         }
       } else if (this.getFileSuffix(item) === "json") {
         if (templateDir) {
-          fs.readFile(TemplatJsonsPath, function(err, data) {
+          fs.readFile(TemplateJsonPath, function(err, data) {
             if (!err) {
               fs.exists(`${path}/${item}`, function(exists) {
                 if (!exists) {
@@ -211,7 +209,7 @@ class wxSmartFile {
         }
       } else if (this.getFileSuffix(item) === "wxml") {
         if (templateDir) {
-          fs.readFile(TemplatWxmlPath, function(err, data) {
+          fs.readFile(TemplateWxmlPath, function(err, data) {
             if (!err) {
               fs.exists(`${path}/${item}`, function(exists) {
                 if (!exists) {
@@ -241,7 +239,7 @@ class wxSmartFile {
         }
       } else if (this.getFileSuffix(item) === "wxss") {
         if (templateDir) {
-          fs.readFile(TemplatWxssPath, function(err, data) {
+          fs.readFile(TemplateWxssPath, function(err, data) {
             if (!err) {
               fs.exists(`${path}/${item}`, function(exists) {
                 if (!exists) {
